@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es2015",
+        "lib": ["dom", "es2015"],
+        "experimentalDecorators": true,
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "declaration": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/*.test.ts"
+    ]
+}
