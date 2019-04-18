@@ -769,7 +769,7 @@ class DictionarySchemaChain<T> {
 //
 // Export functions
 //
-const exportFunctions = (() => {
+const exportFunctions = () => {
     const validate = <T>(schema: T, value: any) =>
         validateValue<T>(schema, value, {path: '', keyReverse: false})
     
@@ -801,13 +801,13 @@ const exportFunctions = (() => {
         parse,
         schema
     }
-})()
+}
 
 //
 // Module export
 //
-export default {
-    ...exportFunctions,
+const axjson = {
+    ...exportFunctions(),
     ValidationError,
     InvalidSchemaError,
     key: createKeySchema,
@@ -825,3 +825,5 @@ export default {
     boolean: BooleanSchemaChain.initial,
     date: DateSchemaChain.initial
 }
+
+export default axjson
