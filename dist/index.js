@@ -405,7 +405,7 @@ DictionarySchemaChain.initial = (schema) => new DictionarySchemaChain((v, ctx) =
 //
 // Export functions
 //
-const exportFunctions = (() => {
+const exportFunctions = () => {
     const validate = (schema, value) => validateValue(schema, value, { path: '', keyReverse: false });
     const validateReverse = (schema, value) => {
         const context = { path: '', keyReverse: true };
@@ -428,10 +428,10 @@ const exportFunctions = (() => {
         parse,
         schema
     };
-})();
+};
 //
 // Module export
 //
-exports.default = Object.assign({}, exportFunctions, { ValidationError,
+const axjson = Object.assign({}, exportFunctions(), { ValidationError,
     InvalidSchemaError, key: createKeySchema, nullable: nullableSchemaCreator, optional: optionalSchemaCreator, array: createArraySchema, union: createUnionSchema, intersection: createIntersectionSchema, any: createAnySchema, object: ObjectSchemaChain.initial, dictionary: DictionarySchemaChain.initial, string: StringSchemaChain.initial, number: NumberSchemaChain.initial, integer: NumberSchemaChain.initial.integer(), boolean: BooleanSchemaChain.initial, date: DateSchemaChain.initial });
-//# sourceMappingURL=index.js.map
+exports.default = axjson;
