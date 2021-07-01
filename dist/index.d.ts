@@ -25,7 +25,7 @@ interface IOptionalSchemaCreator {
     <T>(schema: T): T | undefined;
     unwrap: <T>(unwrapper: () => T) => (schema: T) => T;
 }
-declare type ArrayToUnion<T extends unknown[], TAIL = T> = T extends readonly [infer A, ...infer B] ? A | ArrayToUnion<B, never> : TAIL;
+declare type ArrayToUnion<T extends unknown[]> = T extends readonly [infer A, ...infer B] ? A | ArrayToUnion<B> : T extends (infer A)[] ? A : never;
 declare type UnionSchemaCreator = <T extends unknown[]>(...schemas: T) => ArrayToUnion<T>;
 declare type ArrayToIntersection<T extends unknown[]> = T extends [infer A, ...infer B] ? (A & ArrayToIntersection<B>) : T extends [infer A] ? A : {};
 declare type IntersectionSchemaCreator = <T extends unknown[]>(...schemas: T) => ArrayToIntersection<T>;
