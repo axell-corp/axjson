@@ -277,7 +277,7 @@ const createArraySchema = <T>(schema: T) =>
 //
 // Union schema
 //
-type ArrayToUnion<T extends unknown[]> = T extends [infer A, ...infer B] ? A | ArrayToUnion<B> : never
+type ArrayToUnion<T extends unknown[]> = T extends readonly [infer A, ...infer B] ? A | ArrayToUnion<B> : never
 
 type UnionSchemaCreator = <T extends unknown[]>(...schemas: T) => ArrayToUnion<T>
 
