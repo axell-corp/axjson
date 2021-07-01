@@ -523,10 +523,10 @@ describe('axJson', () => {
 
     test('union object', () => {
         const scheme = j.union({
-            a: 'hoge',
+            a: 'hoge' as const,
             b: 123
         }, {
-            a: 'fuga',
+            a: 'fuga' as const,
             c: true
         })
 
@@ -565,6 +565,44 @@ describe('axJson', () => {
         expect(j.validate(schema, {a: 'hoge'})).toEqual({a: 'hoge'})
         expect(j.validate(schema, {a: null})).toEqual({a: null})
         expect(j.validate(schema, {a: {x: 0}})).toEqual({a: {x: 0}})
+    })
+
+    test('unknown', () => {
+        const schema = {
+            a: j.unknown()
+        }
+
+        expect(j.schema(schema)).toEqual(schema)
+        expect(j.validate(schema, {a: 123})).toEqual({a: 123})
+        expect(j.validate(schema, {a: 'hoge'})).toEqual({a: 'hoge'})
+        expect(j.validate(schema, {a: null})).toEqual({a: null})
+        expect(j.validate(schema, {a: {x: 0}})).toEqual({a: {x: 0}})
+    })
+
+    test('undefined', () => {
+        const schema = {
+            a: j.undefined()
+        }
+
+        expect(j.schema(schema)).toEqual(schema)
+        expect(j.validate(schema, {a: undefined})).toEqual({a: undefined})
+        expect(() => j.validate(schema, {a: null})).toThrow(j.ValidationError)
+        expect(() => j.validate(schema, {a: 'hoge'})).toThrow(j.ValidationError)
+        expect(() => j.validate(schema, {a: {x: 0}})).toThrow(j.ValidationError)
+        expect(() => j.validate(schema, {a: 0})).toThrow(j.ValidationError)
+    })
+
+    test('null', () => {
+        const schema = {
+            a: j.null()
+        }
+
+        expect(j.schema(schema)).toEqual(schema)
+        expect(j.validate(schema, {a: null})).toEqual({a: null})
+        expect(() => j.validate(schema, {a: undefined})).toThrow(j.ValidationError)
+        expect(() => j.validate(schema, {a: 'hoge'})).toThrow(j.ValidationError)
+        expect(() => j.validate(schema, {a: {x: 0}})).toThrow(j.ValidationError)
+        expect(() => j.validate(schema, {a: 0})).toThrow(j.ValidationError)
     })
 
     describe('object', () => {

@@ -277,30 +277,11 @@ const createArraySchema = <T>(schema: T) =>
 //
 // Union schema
 //
-interface IUnionSchemaCreator {
-    <T>(schema: T): T
-    <T1, T2>(schema1: T1, schema2: T2): T1 | T2
-    <T1, T2, T3>(schema1: T1, schema2: T2, schema3: T3): T1 | T2 | T3
-    <T1, T2, T3, T4>(schema1: T1, schema2: T2, schema3: T3, schema4: T4): T1 | T2 | T3 | T4
-    <T1, T2, T3, T4, T5>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5): T1 | T2 | T3 | T4 | T5
-    <T1, T2, T3, T4, T5, T6>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6): T1 | T2 | T3 | T4 | T5 | T6
-    <T1, T2, T3, T4, T5, T6, T7>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7): T1 | T2 | T3 | T4 | T5 | T6 | T7
-    <T1, T2, T3, T4, T5, T6, T7, T8>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14, schema15: T15): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14, schema15: T15, schema16: T16): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14, schema15: T15, schema16: T16, schema17: T17): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14, schema15: T15, schema16: T16, schema17: T17, schema18: T18): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14, schema15: T15, schema16: T16, schema17: T17, schema18: T18, schema19: T19): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19
-    <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(schema1: T1, schema2: T2, schema3: T3, schema4: T4, schema5: T5, schema6: T6, schema7: T7, schema8: T8, schema9: T9, schema10: T10, schema11: T11, schema12: T12, schema13: T13, schema14: T14, schema15: T15, schema16: T16, schema17: T17, schema18: T18, schema19: T19, schema20: T20): T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15 | T16 | T17 | T18 | T19 | T20
-}
+type ArrayToUnion<T extends unknown[]> = T extends [infer A, ...infer B] ? A | ArrayToUnion<B> : never
 
-const createUnionSchema: IUnionSchemaCreator = (...schemas: any[]) =>
+type UnionSchemaCreator = <T extends unknown[]>(...schemas: T) => ArrayToUnion<T>
+
+const createUnionSchema: UnionSchemaCreator = (...schemas) =>
     camouflage<any>(
         (v, ctx) => {
             for (const schema of schemas) {
@@ -319,14 +300,11 @@ const createUnionSchema: IUnionSchemaCreator = (...schemas: any[]) =>
 //
 // Intersection schema
 //
-interface IIntersectionSchemaCreator {
-    <T>(schema: T): T
-    <T1, T2>(schema1: T1, schema2: T2): T1 & T2
-    <T1, T2, T3>(schema1: T1, schema2: T2, schema3: T3): T1 & T2 & T3
-    <T1, T2, T3, T4>(schema1: T1, schema2: T2, schema3: T3, schema4: T4): T1 & T2 & T3 & T4
-}
+type ArrayToIntersection<T extends unknown[]> = T extends [infer A, ...infer B] ? (A & ArrayToIntersection<B>) : T extends [infer A] ? A : {}
 
-const createIntersectionSchema: IIntersectionSchemaCreator = (...schemas: any[]) =>
+type IntersectionSchemaCreator = <T extends unknown[]>(...schemas: T) => ArrayToIntersection<T>
+
+const createIntersectionSchema: IntersectionSchemaCreator = (...schemas) =>
     camouflage<any>(
         (v, ctx) => {
             const ret = {}
@@ -348,6 +326,41 @@ const createIntersectionSchema: IIntersectionSchemaCreator = (...schemas: any[])
 //
 const createAnySchema = () =>
     camouflage<any>((v, _) => v)
+
+
+//
+// Unknown schema
+//
+const createUnknownSchema = () =>
+    camouflage<unknown>((v, _) => v)
+
+
+//
+// Undefined schema
+//
+const createUndefinedSchema = () => (
+    camouflage<undefined>((v, ctx) => {
+        if (v === undefined) {
+            return v
+        }
+        console.error(v)
+        throw new ValidationError(ctx, 'undefined', 'The value is not undefined.')
+    })
+)
+
+
+//
+// Null schema
+//
+const createNullSchema = () => (
+    camouflage<null>((v, ctx) => {
+        if (v === null) {
+            return v
+        }
+        console.error(v)
+        throw new ValidationError(ctx, 'null', 'The value is not null.')
+    })
+)
 
 
 //
@@ -817,13 +830,16 @@ const axjson = {
     union: createUnionSchema,
     intersection: createIntersectionSchema,
     any: createAnySchema,
+    unknown: createUnknownSchema,
+    null: createNullSchema,
+    undefined: createUndefinedSchema,
     object: ObjectSchemaChain.initial,
     dictionary: DictionarySchemaChain.initial,
     string: StringSchemaChain.initial,
     number: NumberSchemaChain.initial,
     integer: NumberSchemaChain.initial.integer(),
     boolean: BooleanSchemaChain.initial,
-    date: DateSchemaChain.initial
+    date: DateSchemaChain.initial,
 }
 
 export default axjson
