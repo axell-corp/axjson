@@ -63,7 +63,7 @@ const validateValue = (schema, value, ctx) => {
         const length = schema.length;
         const ret = [];
         for (let i = 0; i < length; i++) {
-            ret.push(validateValue(schema[i], value[i], Object.assign({}, ctx, { path: `${ctx.path}[${i}]` })));
+            ret.push(validateValue(schema[i], value[i], Object.assign(Object.assign({}, ctx), { path: `${ctx.path}[${i}]` })));
         }
         return ret;
     }
@@ -83,10 +83,10 @@ const validateValue = (schema, value, ctx) => {
                     }
                     ctx.keyRemap.push({ object: ret, srcKey: key, dstKey: validatableKey });
                 }
-                ret[key] = validateValue(schema[key], value[key], Object.assign({}, ctx, { path: `${ctx.path}.${key}` }));
+                ret[key] = validateValue(schema[key], value[key], Object.assign(Object.assign({}, ctx), { path: `${ctx.path}.${key}` }));
             }
             else {
-                ret[key] = validateValue(schema[key], value[validatableKey || key], Object.assign({}, ctx, { path: `${ctx.path}.${key}` }));
+                ret[key] = validateValue(schema[key], value[validatableKey || key], Object.assign(Object.assign({}, ctx), { path: `${ctx.path}.${key}` }));
             }
         }
         return ret;
@@ -165,7 +165,7 @@ const createArraySchema = (schema) => camouflage((v, ctx) => {
     }
     const ret = [];
     for (let i = 0; i < v.length; i++) {
-        ret.push(validateValue(schema, v[i], Object.assign({}, ctx, { path: `${ctx.path}[${i}]` })));
+        ret.push(validateValue(schema, v[i], Object.assign(Object.assign({}, ctx), { path: `${ctx.path}[${i}]` })));
     }
     return ret;
 });
@@ -196,6 +196,30 @@ const createIntersectionSchema = (...schemas) => camouflage((v, ctx) => {
 // Any schema
 //
 const createAnySchema = () => camouflage((v, _) => v);
+//
+// Unknown schema
+//
+const createUnknownSchema = () => camouflage((v, _) => v);
+//
+// Undefined schema
+//
+const createUndefinedSchema = () => (camouflage((v, ctx) => {
+    if (v === undefined) {
+        return v;
+    }
+    console.error(v);
+    throw new ValidationError(ctx, 'undefined', 'The value is not undefined.');
+}));
+//
+// Null schema
+//
+const createNullSchema = () => (camouflage((v, ctx) => {
+    if (v === null) {
+        return v;
+    }
+    console.error(v);
+    throw new ValidationError(ctx, 'null', 'The value is not null.');
+}));
 class StringSchemaChain {
     constructor(func) {
         this.toCreator = () => Object.assign(() => camouflage(this.func), this);
@@ -397,7 +421,7 @@ DictionarySchemaChain.initial = (schema) => new DictionarySchemaChain((v, ctx) =
         throw new ValidationError(ctx, 'Dictionary', 'The value is not an object.');
     }
     return Object.keys(v).reduce((obj, key) => {
-        obj[key] = validateValue(schema, v[key], Object.assign({}, ctx, { path: `${ctx.path}.${key}` }));
+        obj[key] = validateValue(schema, v[key], Object.assign(Object.assign({}, ctx), { path: `${ctx.path}.${key}` }));
         return obj;
     }, {});
 })
@@ -432,6 +456,6 @@ const exportFunctions = () => {
 //
 // Module export
 //
-const axjson = Object.assign({}, exportFunctions(), { ValidationError,
-    InvalidSchemaError, key: createKeySchema, nullable: nullableSchemaCreator, optional: optionalSchemaCreator, array: createArraySchema, union: createUnionSchema, intersection: createIntersectionSchema, any: createAnySchema, object: ObjectSchemaChain.initial, dictionary: DictionarySchemaChain.initial, string: StringSchemaChain.initial, number: NumberSchemaChain.initial, integer: NumberSchemaChain.initial.integer(), boolean: BooleanSchemaChain.initial, date: DateSchemaChain.initial });
+const axjson = Object.assign(Object.assign({}, exportFunctions()), { ValidationError,
+    InvalidSchemaError, key: createKeySchema, nullable: nullableSchemaCreator, optional: optionalSchemaCreator, array: createArraySchema, union: createUnionSchema, intersection: createIntersectionSchema, any: createAnySchema, unknown: createUnknownSchema, null: createNullSchema, undefined: createUndefinedSchema, object: ObjectSchemaChain.initial, dictionary: DictionarySchemaChain.initial, string: StringSchemaChain.initial, number: NumberSchemaChain.initial, integer: NumberSchemaChain.initial.integer(), boolean: BooleanSchemaChain.initial, date: DateSchemaChain.initial });
 exports.default = axjson;
